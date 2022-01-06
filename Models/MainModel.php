@@ -1,5 +1,5 @@
 <?php 
-
+namespace Models;
 
 if ($ajaxRequest) {
     require_once "../Config/SERVER.php";
@@ -7,7 +7,7 @@ if ($ajaxRequest) {
     require_once "./Config/SERVER.php";
 }
 
-namespace Models;
+
 
 use PDO;
 
@@ -50,7 +50,7 @@ class MainModel {
      * @param string $text Cadena de texto a encriptar.
      * @return string Cadena de texto encriptada.
      */
-    public function encryption($text) {
+    protected static function encryption($text) {
         $output=FALSE;
         $key=hash('sha256', SECRET_KEY);
         $iv=substr(hash('sha256', SECRET_IV), 0, 16);

@@ -77,7 +77,7 @@ formsAjax.forEach(forms =>  {
  */
 function alertsAjax(alert) {
     if (alert.Alert === "simple") {
-        Swall.fire({
+        Swal.fire({
             title: alert.Title,
             text: alert.Text,
             type: alert.Type,
