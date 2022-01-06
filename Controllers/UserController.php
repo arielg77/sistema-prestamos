@@ -15,17 +15,17 @@ use Models\UserModel;
 
 class UserController extends UserModel {
 
-    public function create() {
-        $dni = MainModel::clearString($_POST['usuario_dni_reg']);
-        $nombre = MainModel::clearString($_POST['usuario_nombre_reg']);
-        $apellido = MainModel::clearString($_POST['usuario_apellido_reg']);
-        $telefono = MainModel::clearString($_POST['usuario_telefono_reg']);
-        $direccion = MainModel::clearString($_POST['usuario_direccion_reg']);
-        $usuario = MainModel::clearString($_POST['usuario_usuario_reg']);
-        $email = MainModel::clearString($_POST['usuario_email_reg']);
-        $clave1 = MainModel::clearString($_POST['usuario_clave_1_reg']);
-        $clave2 = MainModel::clearString($_POST['usuario_clave_2_reg']);
-        $privilegio = MainModel::clearString($_POST['usuario_privilegio_reg']);
+    public function create() { 
+        $dni = parent::clearString($_POST['usuario_dni_reg']);
+        $nombre = parent::clearString($_POST['usuario_nombre_reg']);
+        $apellido = parent::clearString($_POST['usuario_apellido_reg']);
+        $telefono = parent::clearString($_POST['usuario_telefono_reg']);
+        $direccion = parent::clearString($_POST['usuario_direccion_reg']);
+        $usuario = parent::clearString($_POST['usuario_usuario_reg']);
+        $email = parent::clearString($_POST['usuario_email_reg']);
+        $clave1 = parent::clearString($_POST['usuario_clave_1_reg']);
+        $clave2 = parent::clearString($_POST['usuario_clave_2_reg']);
+        $privilegio = parent::clearString($_POST['usuario_privilegio_reg']);
 
         //Comprobar campos vacíos
         if ($dni == "" || $nombre == "" || $apellido == "" || $usuario == "" || $clave1 == "" || $clave2 == "") {
@@ -42,7 +42,7 @@ class UserController extends UserModel {
         }
 
         //Verificar integridad de lo datos
-        if (MainModel::verifyData("[0-9-]{10,20}", $dni)) {
+        if (parent::verifyData("[0-9-]{10,20}", $dni)) {
             $alert = [
                 "Alert" => "simple",
                 "Title" => "Ocurrió un error inesperado",
@@ -55,7 +55,7 @@ class UserController extends UserModel {
             exit();
         }
 
-        if (MainModel::verifyData("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,35}", $nombre)) {
+        if (parent::verifyData("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,35}", $nombre)) {
             $alert = [
                 "Alert" => "simple",
                 "Title" => "Ocurrió un error inesperado",
@@ -68,7 +68,7 @@ class UserController extends UserModel {
             exit();
         }
 
-        if (MainModel::verifyData("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,35}", $apellido)) {
+        if (parent::verifyData("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,35}", $apellido)) {
             $alert = [
                 "Alert" => "simple",
                 "Title" => "Ocurrió un error inesperado",
@@ -82,7 +82,7 @@ class UserController extends UserModel {
         }
 
         if ($telefono != "") {
-            if (MainModel::verifyData("[0-9()+]{8,20}", $telefono)) {
+            if (parent::verifyData("[0-9()+]{8,20}", $telefono)) {
                 $alert = [
                     "Alert" => "simple",
                     "Title" => "Ocurrió un error inesperado",
@@ -97,7 +97,7 @@ class UserController extends UserModel {
         }
 
         if ($direccion != "") {
-            if (MainModel::verifyData("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,#\- ]{1,190}", $direccion)) {
+            if (parent::verifyData("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,#\- ]{1,190}", $direccion)) {
                 $alert = [
                     "Alert" => "simple",
                     "Title" => "Ocurrió un error inesperado",
@@ -111,7 +111,7 @@ class UserController extends UserModel {
             }
         }
 
-        if (MainModel::verifyData("[a-zA-Z0-9]{1,35}", $usuario)) {
+        if (parent::verifyData("[a-zA-Z0-9]{1,35}", $usuario)) {
             $alert = [
                 "Alert" => "simple",
                 "Title" => "Ocurrió un error inesperado",
@@ -124,7 +124,7 @@ class UserController extends UserModel {
             exit();
         }
 
-        if (MainModel::verifyData("[a-zA-Z0-9$@.-]{7,100}", $clave1) || MainModel::verifyData("[a-zA-Z0-9$@.-]{7,100}", $clave2)) {
+        if (parent::verifyData("[a-zA-Z0-9$@.-]{7,100}", $clave1) || parent::verifyData("[a-zA-Z0-9$@.-]{7,100}", $clave2)) {
             $alert = [
                 "Alert" => "simple",
                 "Title" => "Ocurrió un error inesperado",
@@ -138,7 +138,7 @@ class UserController extends UserModel {
         }
 
         //Verifica que el DNI sea único en la base de datos
-        $checkDni = MainModel::executeSimpleQuery("SELECT usuario_dni FROM usuario 
+        $checkDni =parent::executeSimpleQuery("SELECT usuario_dni FROM usuario 
                                                     WHERE usuario_dni = '$dni'");
         
         if ($checkDni->rowCount() > 0) {
@@ -155,7 +155,7 @@ class UserController extends UserModel {
         }
 
          //Verifica que el usuario sea único en la base de datos
-         $checkUser = MainModel::executeSimpleQuery("SELECT usuario_usuario FROM usuario 
+         $checkUser = parent::executeSimpleQuery("SELECT usuario_usuario FROM usuario 
          WHERE usuario_usuario = '$usuario'");
 
         if ($checkUser->rowCount() > 0) {
@@ -174,7 +174,7 @@ class UserController extends UserModel {
         //Comprueba la validez del email y que no exista en la abse de datos
         if ($email != "") {
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $checkEmail = MainModel::executeSimpleQuery("SELECT usuario_email FROM usuario 
+                $checkEmail = parent::executeSimpleQuery("SELECT usuario_email FROM usuario 
                                                             WHERE usuario_email = '$email'");
             
                 if ($checkEmail->rowCount() > 0) {
@@ -217,7 +217,7 @@ class UserController extends UserModel {
     
                 exit();
         } else {
-            $password = MainModel::encryption($clave1);
+            $password = parent::encryption($clave1);
         }
 
         //Comprobar privilegios
@@ -247,7 +247,7 @@ class UserController extends UserModel {
             "Privilegio" => $privilegio
         ];
 
-        $insertUser = UserModel::createUser($userData);
+        $insertUser = parent::createUser($userData);
 
         if ($insertUser->rowCount() == 1) {
             $alert = [
