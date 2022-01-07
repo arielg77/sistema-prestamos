@@ -4,7 +4,9 @@ namespace Models;
 require_once "MainModel.php";
 
 
-
+/**
+ * Modelo Usuario.
+ */
 class UserModel extends MainModel {
 
     /**

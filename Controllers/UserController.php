@@ -8,11 +8,11 @@ if ($ajaxRequest) {
     require_once "./Models/UserModel.php";
 }
 
-
-
-use Models\MainModel;
 use Models\UserModel;
 
+/**
+ * Controlador Usuario.
+ */
 class UserController extends UserModel {
 
     public function create() { 

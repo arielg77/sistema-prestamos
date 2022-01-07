@@ -13,7 +13,9 @@
 		$ajaxRequest = false;
 		
 		use App\Route;
-		require_once "./App/Route.php";
+use Controllers\LoginController;
+
+require_once "./App/Route.php";
 
 		$IV = new Route();
 
@@ -22,6 +24,14 @@
 		if ($view == "login" || $view == "404") {
 			require_once "./Views/contents/" . $view . "-view.php";
 		} else {
+			session_start(['name' => 'SPM']);
+
+			require_once "./Controllers/LoginController.php";
+			$lc = new LoginController();
+
+			if (!isset($_SESSION['token_spm']) || !isset($_SESSION['usuario_spm']) || !isset($_SESSION['privilegio_spm']) || !isset($_SESSION['id_spm']) ) {
+				echo $lc->forceLogout();
+			}
 	?>
 	<!-- Main container -->
 	<main class="full-box main-container">
